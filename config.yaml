@@ -1,0 +1,47 @@
+dataset:
+  data_yaml: data/processed/data.yaml
+  class_names:
+  - Hardhat
+  - Mask
+  - NO-Hardhat
+  - NO-Mask
+  - NO-Safety Vest
+  - Person
+  - Safety Cone
+  - Safety Vest
+  - machinery
+  - vehicle
+training:
+  base_model: yolov8n.pt
+  epochs: 30
+  imgsz: 640
+  batch: 16
+  patience: 10
+  device: '0'
+  project_dir: models/runs
+  run_name: yolov8n_finetune
+  lr0: 0.01
+  optimizer: auto
+  augment: true
+export:
+  weights_path: models/best.pt
+  onnx_path: models/best.onnx
+  imgsz: 640
+  opset: 12
+  dynamic: false
+  simplify: true
+inference:
+  engine: onnx
+  conf_threshold: 0.35
+  iou_threshold: 0.45
+  max_detections: 100
+tracking:
+  tracker: bytetrack
+  track_thresh: 0.5
+  match_thresh: 0.8
+  track_buffer: 30
+  min_box_area: 10
+api:
+  host: 0.0.0.0
+  port: 8000
+  max_upload_mb: 50
